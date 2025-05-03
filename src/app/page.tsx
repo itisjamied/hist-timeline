@@ -1,6 +1,12 @@
 import Image from "next/image";
+import { sanityClient } from '@/sanity/lib/client'
 
-export default function Home() {
+export default async function Home() {
+  // GROQ to grab just the title field
+  const settings = await sanityClient.fetch<{title: string}>(
+    `*[_type == "siteSettings"][0]{ title }`
+  )
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
@@ -12,6 +18,9 @@ export default function Home() {
           height={38}
           priority
         />
+         <h1 className="text-4xl font-bold">
+        {settings?.title ?? 'Your timeline title goes here'}
+      </h1>
         <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2 tracking-[-.01em]">
             Get started by editing{" "}
