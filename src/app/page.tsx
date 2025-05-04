@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { client } from '@/sanity/lib/client'
-export const dynamic = 'force-dynamic'
 export default async function Home() {
   // GROQ to grab just the title field
   const settings = await client.fetch<{title: string}>(
