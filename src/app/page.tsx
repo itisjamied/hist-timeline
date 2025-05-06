@@ -9,27 +9,16 @@ export default async function Home() {
   );
   const startYear = 1700;
   const endYear = 1877;
-  // const groups: Group[] = [
-  //   { id: 1, label: 'Group A' },
-  //   { id: 2, label: 'Group B' },
-  //   { id: 3, label: 'Group C' },
-  //   { id: 4, label: 'Group D' },
-  //   { id: 5, label: 'Group E' },
-  //   { id: 6, label: 'Group F' },
-  //   { id: 7, label: 'Group G' },
-  // ];
+
   const groups: Group[] = [
     { id: 1, label: 'Wars' },
     { id: 2, label: 'Imperial Legislation' },
     { id: 3, label: 'Colonial Protest & Conflict' },
   ];
-  // const items = [
-  //   { id: 1, group: 1, title: 'Queen Victoria', startYear: 1837, endYear: 1901 },
-  //   { id: 2, group: 2, title: 'World War I',  startYear: 1814, endYear: 1818 },
-  // ];
+
   const items = [
     { id:  1, group: 1, title: 'French & Indian War',startYear: 1754, endYear: 1763 },
-    { id:  2, group: 2, title: 'Royal Proclamation Line',startYear: 1763, endYear: 1763 },
+    { id:  2, group: 2, title: 'Royal Proclamation Line',startYear: 1763, endYear: 1764 },
     { id:  3, group: 2, title: 'Sugar Act',startYear: 1764, endYear: 1764 },
     { id:  4, group: 2, title: 'Stamp Act',startYear: 1765, endYear: 1765 },
     { id:  5, group: 2, title: 'Townshend Duties', startYear: 1767, endYear: 1768 },
