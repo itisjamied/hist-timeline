@@ -1,5 +1,6 @@
 import { client } from '@/sanity/lib/client';
-import Timeline, { Group } from '@/components/Timeline';
+import { Timeline } from '@/components/Timeline/Timeline';
+import { Group, Item } from '@/components/Timeline/types';
 export const revalidate = 0; // never cache, always SSR on every request
 export const dynamic = 'force-dynamic';
 
@@ -17,7 +18,7 @@ export default async function Home() {
     { id: 4, label: 'Test' },
   ];
 
-  const items = [
+  const items: Item[] = [
     { id:  1, group: 1, title: 'French & Indian War',startYear: 1754, endYear: 1763 },
     { id:  2, group: 2, title: 'Royal Proclamation Line',startYear: 1763, endYear: 1764 },
     { id:  3, group: 2, title: 'Sugar Act',startYear: 1764, endYear: 1764 },
