@@ -20,6 +20,13 @@ export interface TimelineProps {
   groups: Group[];
   items: Item[];
 }
+const bgClasses = [
+  'bg-red-50',
+  'bg-green-50',
+  'bg-blue-50',
+  'bg-yellow-50',
+  'bg-purple-50',
+];
 
 interface PositionedItem extends Item { level: number }
 // Given all items, compute a `level` for each so overlapping ones get successive levels.
@@ -77,14 +84,19 @@ const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, items }
  
    // 3) build one CSS height per row
    //    baseRowHeight = 4rem, plus overlapOffset×maxLevel
-   const rowHeights = groups.map(g => {
-     const max = maxLevelByGroup[g.id] ?? 0;
-     return `${4 + max * overlapOffset}rem`;
-   });
+      const base = 4;      // base rem for content
+      const pad  = 1;      // extra rem for vertical padding
+      const offset = 3;    // your overlapOffset
+
+      const rowHeights = groups.map(g => {
+        const maxLevel = maxLevelByGroup[g.id] ?? 0;
+        // add `pad*2` if you’d like padding-top + padding-bottom
+        return `${base + maxLevel * offset + pad * 2}rem`;
+      });
  
 
   return (
-    <div className="timeline-container overflow-x-auto border mt-8 scrollbar-thin scrollbar-track-gray-300 scrollbar-thumb-white">
+    <div className="timeline-container overflow-x-auto border-l-2  rounded mt-8 scrollbar-thin scrollbar-track-gray-300 scrollbar-thumb-white">
       {/* Main timeline grid for groups */}
       <div
         className="grid min-w-max relative"
@@ -93,31 +105,35 @@ const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, items }
           gridTemplateRows: rowHeights.join(" "),
         }}
       >
-        {groups.map((group) =>
-     
-          <React.Fragment key={group.id}>
-          {/* <-- Sticky label cell */}
-          <div
-            className="
-              sticky left-0
-              flex items-center pl-2
-              text-xs font-semibold
-              bg-white z-20
-              border-t border-r
-            "
-          >
-            {group.label}
-          </div>
-          {/* Year cells */}
-          {years.map((year) => (
-            <div
-              key={`${group.id}-${year}`}
-              className="border-t border-l flex items-center justify-center text-xs"
-            >
-            </div>
-          ))}
-        </React.Fragment>
-        )}
+{groups.map((group) => {
+  const rowBg = bgClasses[group.id % bgClasses.length];
+
+  return (
+    <React.Fragment key={group.id}>
+      {/* <-- Sticky label cell */}
+      <div
+        className={`
+          sticky left-0
+          flex items-center pl-2
+          text-xs font-semibold
+          z-20
+          border-r-2 border-t-2
+          ${rowBg}
+        `}
+      >
+        {group.label}
+      </div>
+      {/* Year cells */}
+      {years.map((year) => (
+        <div
+          key={`${group.id}-${year}`}
+          className="flex items-center justify-center text-xs"
+        >
+        </div>
+      ))}
+    </React.Fragment>
+  );
+})}
 
     {itemsWithLevel.map((item) => {
           const rowIndex = groups.findIndex((g) => g.id === item.group);
@@ -128,15 +144,24 @@ const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, items }
           const colStart = startOffset + 2;// +1 for labels column, +1 because grid‐lines start at 1
           const colEnd = colStart + spanYears;
           // const overlapOffset = 2; // in rem
-          const topShift = `calc(${rowIndex} * 4rem + ${item.level} * ${overlapOffset}rem)`;
+          // const topShift = `calc(${rowIndex} * 4rem + ${item.level} * ${overlapOffset}rem)`;
+          const levelShift = `${item.level * overlapOffset}rem`;
+          const itemBg = bgClasses[item.group % bgClasses.length];
 
           return (
             <div
               key={item.id}
-              className="absolute flex w-[100%] items-centerjustify-center px-1 text-xs font-medium bg-blue-200 text-blue-900 rounded z-10 p-2 mt-4 border-2 hover:border-none hover:cursor-pointer"
+              // className="absolute flex w-[100%] items-centerjustify-center px-1 text-xs font-medium bg-blue-200 text-blue-900 rounded z-10 p-2 mt-4 border-2 hover:border-none hover:cursor-pointer"
+              className={`
+                        absolute flex w-full items-center justify-center
+                        px-1 text-xs font-medium rounded z-10 p-2 mt-4
+                        border-2 hover:border-none hover:cursor-pointer
+                        ${itemBg} text-blue-900
+                      `}
               style={{
                 gridColumn: `${colStart} / ${colEnd}`,
-                top: topShift,
+                gridRowStart:    rowIndex + 1,
+                top: levelShift,
                 zIndex: item.level + 10,  // higher levels float above
               }}
             >
