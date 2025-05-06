@@ -14,6 +14,7 @@ export default async function Home() {
     { id: 1, label: 'Wars' },
     { id: 2, label: 'Imperial Legislation' },
     { id: 3, label: 'Colonial Protest & Conflict' },
+    { id: 4, label: 'Test' },
   ];
 
   const items = [

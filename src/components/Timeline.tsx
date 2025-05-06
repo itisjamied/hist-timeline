@@ -143,15 +143,12 @@ const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, items }
           const spanYears = item.endYear - item.startYear + 1;// inclusive span
           const colStart = startOffset + 2;// +1 for labels column, +1 because grid‐lines start at 1
           const colEnd = colStart + spanYears;
-          // const overlapOffset = 2; // in rem
-          // const topShift = `calc(${rowIndex} * 4rem + ${item.level} * ${overlapOffset}rem)`;
           const levelShift = `${item.level * overlapOffset}rem`;
           const itemBg = bgClasses[item.group % bgClasses.length];
 
           return (
             <div
               key={item.id}
-              // className="absolute flex w-[100%] items-centerjustify-center px-1 text-xs font-medium bg-blue-200 text-blue-900 rounded z-10 p-2 mt-4 border-2 hover:border-none hover:cursor-pointer"
               className={`
                         absolute flex w-full items-center justify-center
                         px-1 text-xs font-medium rounded z-10 p-2 mt-4
@@ -162,7 +159,7 @@ const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, items }
                 gridColumn: `${colStart} / ${colEnd}`,
                 gridRowStart:    rowIndex + 1,
                 top: levelShift,
-                zIndex: item.level + 10,  // higher levels float above
+                zIndex: item.level + 10,
               }}
             >
               {item.title}
