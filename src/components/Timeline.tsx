@@ -133,7 +133,7 @@ const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, items }
           return (
             <div
               key={item.id}
-              className="absolute flex w-[100%] items-centerjustify-center px-1 text-xs font-medium bg-blue-200 text-blue-900 rounded z-10 p-2 border-2 hover:border-none hover:cursor-pointer"
+              className="absolute flex w-[100%] items-centerjustify-center px-1 text-xs font-medium bg-blue-200 text-blue-900 rounded z-10 p-2 mt-4 border-2 hover:border-none hover:cursor-pointer"
               style={{
                 gridColumn: `${colStart} / ${colEnd}`,
                 top: topShift,

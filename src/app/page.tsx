@@ -18,7 +18,7 @@ export default async function Home() {
 
   const items = [
     { id:  1, group: 1, title: 'French & Indian War',startYear: 1754, endYear: 1763 },
-    { id:  2, group: 2, title: 'Royal Proclamation Line',startYear: 1763, endYear: 1764 },
+    { id:  2, group: 2, title: 'Royal Proclamation Line',startYear: 1763, endYear: 1763 },
     { id:  3, group: 2, title: 'Sugar Act',startYear: 1764, endYear: 1764 },
     { id:  4, group: 2, title: 'Stamp Act',startYear: 1764, endYear: 1765 },
     { id:  5, group: 2, title: 'Townshend Duties', startYear: 1767, endYear: 1768 },
