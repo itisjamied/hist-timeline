@@ -1,3 +1,4 @@
+// components/Timeline.tsx
 import React from 'react';
 
 export interface Group {
@@ -15,34 +16,59 @@ const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups }) => {
   const numYears = endYear - startYear + 1;
   const years = Array.from({ length: numYears }, (_, i) => startYear + i);
 
+  // Common grid column definition
+  const columnStyles = { gridTemplateColumns: `5vw repeat(${numYears}, 5vw)` };
+
   return (
-    <div
-      className="overflow-x-auto border mt-8"
-      style={{
-        display: 'grid',
-        gridTemplateColumns: `repeat(${numYears}, 5vw)`,
-        gridTemplateRows: `repeat(${groups.length}, 4rem)`,
-      }}
-    >
-      {groups.map((group, rowIdx) =>
-        years.map((year, colIdx) => (
+    <div className="timeline-container overflow-x-auto border mt-8 scrollbar-thin scrollbar-track-gray-300 scrollbar-thumb-white">
+      {/* Main timeline grid for groups */}
+      <div
+        className="grid min-w-max"
+        style={{
+          ...columnStyles,
+          gridTemplateRows: `repeat(${groups.length}, 4rem)`,
+        }}
+      >
+        {groups.map((group) =>
+     
+          <React.Fragment key={group.id}>
+          {/* <-- Sticky label cell */}
           <div
-            key={`${group.id}-${year}`}
-            className="border-l border-t flex items-center justify-center text-xs"
+            className="
+              sticky left-0
+              flex items-center pl-2
+              text-xs font-semibold
+              bg-white z-10
+              border-t border-r
+            "
           >
-            {rowIdx === 0 && (
-              <span className="absolute top-0 transform -translate-y-full text-[10px]">
-                {year}
-              </span>
-            )}
-            {colIdx === 0 && (
-              <span className="absolute left-0 transform -translate-x-full text-[10px]">
-                {group.label}
-              </span>
-            )}
+            {group.label}
           </div>
-        ))
-      )}
+          {/* Year cells */}
+          {years.map((year) => (
+            <div
+              key={`${group.id}-${year}`}
+              className="border-t border-l flex items-center justify-center text-xs"
+            >
+              {/* you could highlight the year if you want */}
+            </div>
+          ))}
+        </React.Fragment>
+        )}
+      </div>
+
+      {/* Year labels underneath */}
+      <div className="grid bg-black" style={columnStyles}>
+      <div /> 
+        {years.map(year => (
+          <div
+            key={year}
+            className=" flex items-center justify-center text-xs h-6 bg-black text-white"
+          >
+            {year}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
