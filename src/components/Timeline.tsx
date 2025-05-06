@@ -20,8 +20,8 @@ export interface TimelineProps {
   groups: Group[];
   items: Item[];
 }
-interface PositionedItem extends Item { level: number }
 
+interface PositionedItem extends Item { level: number }
 // Given all items, compute a `level` for each so overlapping ones get successive levels.
 function computeLevels(items: Item[]): PositionedItem[] {
   // 1) bucket by group
@@ -60,26 +60,28 @@ function computeLevels(items: Item[]): PositionedItem[] {
 const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, items }) => {
   const numYears = endYear - startYear + 1;
   const years = Array.from({ length: numYears }, (_, i) => startYear + i);
-
   // Common grid column definition
   const columnStyles = { gridTemplateColumns: `5vw repeat(${numYears}, 5vw)` };
-
-  // const itemsWithLevel = items.map((item, _, all) => {
-  //   let level = 0;
-  //   for (const other of all) {
-  //     if (other === item) continue;
-  //     const overlaps =
-  //       other.group === item.group &&
-  //       other.startYear <= item.endYear &&
-  //       other.endYear >= item.startYear;
-  //     // bump this item's level if it overlaps something with the same (or lower) level
-  //     if (overlaps && level <= /* you'd need to know other’s level here */ 0) {
-  //       level++;
-  //     }
-  //   }
-  //   return { ...item, level };
-  // });
-  const itemsWithLevel = computeLevels(items);
+   // 1) assign levels:
+   const overlapOffset = 3; // rem per level
+   const itemsWithLevel = computeLevels(items);
+ 
+   // 2) find max level per group
+   const maxLevelByGroup: Record<number, number> = {};
+   itemsWithLevel.forEach(item => {
+     maxLevelByGroup[item.group] = Math.max(
+       maxLevelByGroup[item.group] ?? 0,
+       item.level
+     );
+   });
+ 
+   // 3) build one CSS height per row
+   //    baseRowHeight = 4rem, plus overlapOffset×maxLevel
+   const rowHeights = groups.map(g => {
+     const max = maxLevelByGroup[g.id] ?? 0;
+     return `${4 + max * overlapOffset}rem`;
+   });
+ 
 
   return (
     <div className="timeline-container overflow-x-auto border mt-8 scrollbar-thin scrollbar-track-gray-300 scrollbar-thumb-white">
@@ -88,7 +90,7 @@ const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, items }
         className="grid min-w-max relative"
         style={{
           ...columnStyles,
-          gridTemplateRows: `repeat(${groups.length}, 4rem)`,
+          gridTemplateRows: rowHeights.join(" "),
         }}
       >
         {groups.map((group) =>
@@ -112,7 +114,6 @@ const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, items }
               key={`${group.id}-${year}`}
               className="border-t border-l flex items-center justify-center text-xs"
             >
-              {/* you could highlight the year if you want */}
             </div>
           ))}
         </React.Fragment>
@@ -122,11 +123,11 @@ const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, items }
           const rowIndex = groups.findIndex((g) => g.id === item.group);
           if (rowIndex === -1) return null;
 
-          const startOffset = item.startYear - startYear;                // e.g. 1805–1800 = 5 → zero‐based
-          const spanYears = item.endYear - item.startYear + 1;           // inclusive span
-          const colStart = startOffset + 2;                              // +1 for labels column, +1 because grid‐lines start at 1
+          const startOffset = item.startYear - startYear;// e.g. 1805–1800 = 5 → zero‐based
+          const spanYears = item.endYear - item.startYear + 1;// inclusive span
+          const colStart = startOffset + 2;// +1 for labels column, +1 because grid‐lines start at 1
           const colEnd = colStart + spanYears;
-          const overlapOffset = 2; // in rem
+          // const overlapOffset = 2; // in rem
           const topShift = `calc(${rowIndex} * 4rem + ${item.level} * ${overlapOffset}rem)`;
 
           return (
