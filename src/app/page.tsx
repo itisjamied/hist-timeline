@@ -31,9 +31,37 @@ export default async function Home() {
   ];
   
   return (
-    <main className="min-h-screen flex flex-col justify-center p-8">
-      <h1 className="text-4xl text-center font-bold">{title || 'Your title goes here'}</h1>
-      <Timeline startYear={startYear} endYear={endYear} groups={groups} items={items} />
+    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 py-12 px-6">
+      {/* Site Header */}
+      <header className="max-w-6xl mx-auto mb-8">
+        <h1 className="text-5xl font-extrabold text-center text-gray-800">
+          {title || 'Your title goes here'}
+        </h1>
+        <p className="mt-2 text-center text-gray-600">A visual history timeline for History 265: American History to 1877</p>
+      </header>
+
+      {/* Course Context */}
+      <section className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-8 mb-8">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">Course Context</h2>
+        <p className="text-gray-700 leading-relaxed">
+          This interactive timeline is designed to accompany History 265: American History to 1877 (Spring 2025). It visually presents major events from early Anglo-American colonization through the Civil War and Reconstruction. By mapping these events chronologically, students can better grasp historical dynamics, support their document analysis papers, and prepare for exams as outlined in the course syllabus. 
+        </p>
+      </section>
+
+      {/* Timeline Section */}
+      <section className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+        <Timeline
+          startYear={startYear}
+          endYear={endYear}
+          groups={groups}
+          items={items}
+        />
+      </section>
+
+      {/* Footer */}
+      <footer className="max-w-6xl mx-auto mt-12 text-center text-gray-500 text-sm">
+        &copy; {new Date().getFullYear()} {title || 'My Timeline App'}. All rights reserved.
+      </footer>
     </main>
   );
 }
