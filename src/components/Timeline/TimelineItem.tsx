@@ -1,5 +1,6 @@
 import React from 'react';
 import { PositionedItem, Group } from './types';
+import { COLUMN_WIDTH_VW } from '../Constants/constants';
 
 interface TimelineItemProps {
   item: PositionedItem;
@@ -16,7 +17,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({ item, startYear, gro
   if (rowIndex === -1) return null;
 
   const startOffset = item.startYear - startYear;
-  const spanYears = item.endYear - item.startYear + 1;
+  const spanYears = item.endYear - item.startYear +1;
   const colStart = startOffset + 2;
   const colEnd = colStart + spanYears;
 
@@ -26,6 +27,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({ item, startYear, gro
       style={{
         gridColumn: `${colStart} / ${colEnd}`,
         gridRowStart: rowIndex + 1,
+        width: `${spanYears * COLUMN_WIDTH_VW}vw`,
         top: `${item.level * overlapOffset}rem`,
         zIndex: item.level + 10,
       }}

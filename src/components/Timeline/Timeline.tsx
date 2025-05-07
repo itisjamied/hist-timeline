@@ -4,6 +4,7 @@ import { computeLevels } from './utils/computeLevels';
 import { TimelineRow } from './TimelineRow';
 import { TimelineItem } from './TimelineItem';
 import { YearLabels } from './YearLabels';
+import { COLUMN_WIDTH } from '../Constants/constants';
 
 interface TimelineProps {
   startYear: number;
@@ -15,7 +16,7 @@ interface TimelineProps {
 export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, items }) => {
   const numYears = endYear - startYear + 1;
   const years = Array.from({ length: numYears }, (_, i) => startYear + i);
-  const columnStyles = { gridTemplateColumns: `10vw repeat(${numYears}, 10vw)` };
+  const columnStyles = { gridTemplateColumns: `${COLUMN_WIDTH} repeat(${numYears}, ${COLUMN_WIDTH})` };
 
   const itemsWithLevel = computeLevels(items);
   const maxLevelByGroup: Record<number, number> = {};
@@ -38,7 +39,6 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
         className="grid min-w-max relative divide-y divide-gray-200"
         style={{
            ...columnStyles, 
-          //  gridTemplateRows: `repeat(${groups.length}, minmax(4rem, 1fr))`,
           gridTemplateRows: rowHeights.map(h => `minmax(${h}, 1fr)`).join(' '),
           height: '95%',
           }}
