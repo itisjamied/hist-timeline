@@ -16,6 +16,8 @@ export default async function Home() {
     { id: 2, label: 'Imperial Legislation' },
     { id: 3, label: 'Colonial Protest & Conflict' },
     { id: 4, label: 'Test' },
+    { id: 5, label: 'Test' },
+    { id: 6, label: 'Test' },
   ];
 
   const items: Item[] = [
@@ -49,7 +51,7 @@ export default async function Home() {
       </section>
 
       {/* Timeline Section */}
-      <section className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+      <section className="max-w-8xl mx-auto bg-white rounded-2xl shadow-lg p-8">
         <Timeline
           startYear={startYear}
           endYear={endYear}

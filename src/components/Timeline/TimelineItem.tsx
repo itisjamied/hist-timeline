@@ -5,6 +5,7 @@ interface TimelineItemProps {
   item: PositionedItem;
   startYear: number;
   groups: Group[];
+  className?: string;
 }
 
 export const TimelineItem: React.FC<TimelineItemProps> = ({ item, startYear, groups }) => {
@@ -21,7 +22,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({ item, startYear, gro
 
   return (
     <div
-      className={`absolute flex items-center justify-center px-1 text-xs font-medium rounded z-10 p-2 mt-4 border-2 hover:border-none hover:cursor-pointer ${itemBg} text-blue-900`}
+      className={`absolute flex items-center justify-center px-1 text-xs font-bold text-black rounded z-10 p-2  border-2 border-black hover:border-none hover:cursor-pointer ${itemBg}`}
       style={{
         gridColumn: `${colStart} / ${colEnd}`,
         gridRowStart: rowIndex + 1,

@@ -5,6 +5,7 @@ interface TimelineRowProps {
   group: Group;
   years: number[];
   columnCount: number;
+  className?: string;
 }
 
 export const TimelineRow: React.FC<TimelineRowProps> = ({ group, years }) => {
@@ -13,7 +14,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({ group, years }) => {
 
   return (
     <>
-      <div className={`sticky left-0 flex items-center pl-2 text-xs font-semibold z-20 border-r-2 border-t-2 ${rowBg}`}>  
+      <div className={`sticky left-0 flex items-center justify-center text-center p-8 text-xs font-semibold z-20 border-r-2 border-t-2 ${rowBg}`} >  
         {group.label}
       </div>
       {years.map(year => (
