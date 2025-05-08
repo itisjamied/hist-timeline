@@ -7,6 +7,7 @@ interface TimelineItemProps {
   startYear: number;
   groups: Group[];
   className?: string;
+  description?: string;
   onItemClick?: (item: PositionedItem) => void;
 }
 
@@ -14,7 +15,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
   item,
   startYear,
   groups,
-  onItemClick, 
+  onItemClick,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const overlapOffset = 3;
@@ -37,7 +38,6 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      // onClick={() => onItemClick?.(item)} 
       onClick={() => onItemClick?.(item)} 
       // onClick={() => {
       //   console.log(`Name: ${item.title}, Start Year: ${item.startYear}, End Year: ${item.endYear}`);

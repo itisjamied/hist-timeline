@@ -10,6 +10,7 @@ export interface Group {
     title: string;
     startYear: number;
     endYear: number;
+    description?: string; 
   }
   
   export interface PositionedItem extends Item {

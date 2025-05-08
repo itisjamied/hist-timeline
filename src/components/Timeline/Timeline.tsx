@@ -130,7 +130,7 @@ export const Timeline: React.FC<TimelineProps> = ({
         </button>
         <button
           onClick={toggleFullscreen}
-          className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300"
+          className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300 cursor-pointer"
         >
           {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
         </button>
@@ -166,6 +166,7 @@ export const Timeline: React.FC<TimelineProps> = ({
                 item={item}
                 startYear={startYear}
                 groups={groups}
+                description={item.description}
                 className="bg-indigo-100 text-indigo-800 rounded-full px-2 py-1 shadow"
                 onItemClick={handleItemClick}
               />
@@ -199,6 +200,9 @@ export const Timeline: React.FC<TimelineProps> = ({
               <h2 className="text-xl font-bold mb-2">{selectedItem.title}</h2>
               <p><strong>Start:</strong> {selectedItem.startYear}</p>
               <p><strong>End: </strong> {selectedItem.endYear}</p>
+              {selectedItem.description && (
+                <p className="mt-4 text-gray-700">{selectedItem.description}</p>
+              )}
             </>
           ) : null}
         </div>
