@@ -28,18 +28,18 @@ export const Timeline: React.FC<TimelineProps> = ({
     gridTemplateColumns: `${columnWidth} repeat(${numYears}, ${columnWidth})`,
   };
 
-  // refs for scroll container and to remember scroll ratio
+  // refs
   const scrollRef = useRef<HTMLDivElement>(null);
   const prevCenterRatioRef = useRef<number | null>(null);
-
-  // ref for fullscreen wrapper
   const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // fullscreen state
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // compute row heights based on overlapping levels
+  // compute item levels
   const itemsWithLevel = computeLevels(items);
   const maxLevelByGroup: Record<number, number> = {};
-  itemsWithLevel.forEach((item) => {
+  itemsWithLevel.forEach(item => {
     maxLevelByGroup[item.group] = Math.max(
       maxLevelByGroup[item.group] ?? 0,
       item.level
@@ -49,30 +49,29 @@ export const Timeline: React.FC<TimelineProps> = ({
   const base = 3;
   const gap = 0.5;
   const offset = 2.5;
-  const rowHeights = groups.map((g) => {
+  const rowHeights = groups.map(g => {
     const maxLevel = maxLevelByGroup[g.id] ?? 0;
     return `${base + maxLevel * offset + gap}rem`;
   });
 
-  // adjust scroll to keep center position on width change
+  // keep scroll center on resize
   useLayoutEffect(() => {
     const ratio = prevCenterRatioRef.current;
     const container = scrollRef.current;
     if (ratio !== null && container) {
-      const newTotalWidth = container.scrollWidth;
-      const newCenter = ratio * newTotalWidth;
+      const newTotal = container.scrollWidth;
+      const newCenter = ratio * newTotal;
       container.scrollLeft = newCenter - container.clientWidth / 2;
       prevCenterRatioRef.current = null;
     }
   }, [columnWidth]);
 
-  // handlers record current center ratio then update width
+  // zoom handlers
   const adjustWidth = (delta: number) => {
     const container = scrollRef.current;
     if (container) {
       const { scrollLeft, clientWidth, scrollWidth } = container;
-      const center = scrollLeft + clientWidth / 2;
-      prevCenterRatioRef.current = center / scrollWidth;
+      prevCenterRatioRef.current = (scrollLeft + clientWidth / 2) / scrollWidth;
     }
     const unit = columnWidth.replace(/[0-9.]/g, '');
     const num = parseFloat(columnWidth);
@@ -86,127 +85,119 @@ export const Timeline: React.FC<TimelineProps> = ({
       try {
         await wrapperRef.current?.requestFullscreen();
         setIsFullscreen(true);
-      } catch (err) {
-        console.error('Failed to enter fullscreen:', err);
+      } catch (e) {
+        console.error('Failed to enter fullscreen', e);
       }
     } else {
       try {
         await document.exitFullscreen();
         setIsFullscreen(false);
-      } catch (err) {
-        console.error('Failed to exit fullscreen:', err);
+      } catch (e) {
+        console.error('Failed to exit fullscreen', e);
       }
     }
   };
 
-  // keep state in sync if user exits via ESC
+  // sync fullscreen state
   useEffect(() => {
-    const onFsChange = () => setIsFullscreen(!!document.fullscreenElement);
-    document.addEventListener('fullscreenchange', onFsChange);
-    return () => document.removeEventListener('fullscreenchange', onFsChange);
+    const onChange = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', onChange);
+    return () => document.removeEventListener('fullscreenchange', onChange);
   }, []);
 
   const [selectedItem, setSelectedItem] = useState<PositionedItem | null>(null);
-
-  // pass this into each TimelineItem
-  const handleItemClick = (item: PositionedItem) => {
-    setSelectedItem(item);
-  };
+  const handleItemClick = (item: PositionedItem) => setSelectedItem(item);
 
   return (
-    <>
-      <div className="translate-[-20px] z-10 flex justify-end space-x-2 items-end bg-white px-2 py-1 w-full">
+    <div
+      ref={wrapperRef}
+      className={`timeline-fullscreen-container m-6 relative bg-white rounded-2xl rounded-br-none shadow-inner overflow-hidden
+        ${isFullscreen ? 'h-screen pt-8' : 'h-[60vh]'}`}
+    >
+      {/* Controls */}
+      <div className="absolute top-4 right-4 z-20 flex space-x-2 bg-white bg-opacity-75 p-2 rounded">
         <button
           onClick={() => adjustWidth(-1)}
-          className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300 cursor-pointer"
+          className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300"
         >
           –
         </button>
         <button
           onClick={() => adjustWidth(1)}
-          className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300 cursor-pointer"
+          className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300"
         >
           +
         </button>
         <button
           onClick={toggleFullscreen}
-          className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300 cursor-pointer"
+          className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300"
         >
           {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
         </button>
       </div>
 
-      <div
-        ref={wrapperRef}
-        className="timeline-wrapper m-6 mt-0 h-[60vh] relative bg-white rounded-2xl rounded-br-none shadow-inner overflow-x-hidden"
-      >
-        {/* Scrollable timeline content */}
-        <div ref={scrollRef} className="overflow-x-auto overflow-y-hidden h-full">
-          <div
-            className="grid min-w-max relative divide-y divide-gray-200"
-            style={{
-              ...columnStyles,
-              gridTemplateRows: rowHeights.map((h) => `minmax(${h}, 1fr)`).join(' '),
-              height: '95%',
-            }}
-          >
-            {groups.map((group) => (
-              <TimelineRow
-                key={group.id}
-                group={group}
-                years={years}
-                columnCount={numYears}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50"
-              />
-            ))}
-
-            {itemsWithLevel.map((item) => (
-              <TimelineItem
-                key={item.id}
-                item={item}
-                startYear={startYear}
-                groups={groups}
-                description={item.description}
-                className="bg-indigo-100 text-indigo-800 rounded-full px-2 py-1 shadow"
-                onItemClick={handleItemClick}
-              />
-            ))}
-          </div>
-
-          <YearLabels
-            years={years}
-            columnStyles={columnStyles}
-            className="mt-4 text-xs text-gray-500"
-          />
-        </div>
-
-        {/* SIDE PANEL */}
+      {/* Timeline Content */}
+      <div ref={scrollRef} className="h-full overflow-x-auto overflow-y-hidden">
         <div
-          className={`
-            absolute top-0 right-0 h-full w-80 bg-white shadow-lg p-6
-            transform transition-transform duration-300 z-50
-            ${selectedItem ? 'translate-x-0' : 'translate-x-full'}
-          `}
+          className="grid min-w-max relative divide-y divide-gray-200"
+          style={{
+            ...columnStyles,
+            gridTemplateRows: rowHeights.map(h => `minmax(${h}, 1fr)`).join(' '),
+            height: '95%',
+          }}
         >
-          <button
-            className="mb-4 text-gray-500 hover:text-gray-800"
-            onClick={() => setSelectedItem(null)}
-          >
-            Close ×
-          </button>
+          {groups.map(group => (
+            <TimelineRow
+              key={group.id}
+              group={group}
+              years={years}
+              columnCount={numYears}
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50"
+            />
+          ))}
 
-          {selectedItem ? (
-            <>
-              <h2 className="text-xl font-bold mb-2">{selectedItem.title}</h2>
-              <p><strong>Start:</strong> {selectedItem.startYear}</p>
-              <p><strong>End: </strong> {selectedItem.endYear}</p>
-              {selectedItem.description && (
-                <p className="mt-4 text-gray-700">{selectedItem.description}</p>
-              )}
-            </>
-          ) : null}
+          {itemsWithLevel.map(item => (
+            <TimelineItem
+              key={item.id}
+              item={item}
+              startYear={startYear}
+              groups={groups}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              description={(item as any).description}
+              className="bg-indigo-100 text-indigo-800 rounded-full px-2 py-1 shadow"
+              onItemClick={handleItemClick}
+            />
+          ))}
         </div>
+        <YearLabels
+          years={years}
+          columnStyles={columnStyles}
+          className="mt-4 text-xs text-gray-500"
+        />
       </div>
-    </>
+
+      {/* Side Panel */}
+      <div
+        className={`absolute top-0 right-0 h-full w-80 bg-white shadow-lg p-6 transform transition-transform duration-300 z-30
+          ${selectedItem ? 'translate-x-0' : 'translate-x-full'}`}
+      >
+        <button
+          className="mb-4 text-gray-500 hover:text-gray-800"
+          onClick={() => setSelectedItem(null)}
+        >
+          Close ×
+        </button>
+        {selectedItem && (
+          <>
+            <h2 className="text-xl font-bold mb-2">{selectedItem.title}</h2>
+            <p><strong>Start:</strong> {selectedItem.startYear}</p>
+            <p><strong>End:</strong> {selectedItem.endYear}</p>
+            {selectedItem.description && (
+              <p className="mt-4 text-gray-700">{selectedItem.description}</p>
+            )}
+          </>
+        )}
+      </div>
+    </div>
   );
 };
