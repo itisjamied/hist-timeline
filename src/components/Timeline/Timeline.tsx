@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useLayoutEffect } from 'react';
-import { Group, Item } from './types';
+import { Group, Item, PositionedItem } from './types';
 import { computeLevels } from './utils/computeLevels';
 import { TimelineRow } from './TimelineRow';
 import { TimelineItem } from './TimelineItem';
@@ -14,6 +14,7 @@ interface TimelineProps {
   groups: Group[];
   items: Item[];
 }
+
 
 export const Timeline: React.FC<TimelineProps> = ({
   startYear,
@@ -76,10 +77,15 @@ export const Timeline: React.FC<TimelineProps> = ({
     setColumnWidth(`${next}${unit}`);
   };
 
+  const [selectedItem, setSelectedItem] = useState<PositionedItem | null>(null);
+
+  // pass this into each TimelineItem
+  const handleItemClick = (item: PositionedItem) => {
+    setSelectedItem(item);
+  };
   return (
-    <div className="timeline-wrapper m-6 h-[60vh] relative bg-white rounded-2xl rounded-br-none shadow-inner">
-      {/* Absolute-positioned zoom controls */}
-      <div className="absolute top-[-50px] right-2 z-10 flex space-x-2 items-center bg-white px-2 py-1 rounded-md shadow">
+    <>
+        <div className=" translate-[-20px] z-10 flex justify-end space-x-2 items-end bg-white px-2 py-1 w-full">
         <button
           onClick={() => adjustWidth(-1)}
           className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300 cursor-pointer"
@@ -93,6 +99,9 @@ export const Timeline: React.FC<TimelineProps> = ({
           +
         </button>
       </div>
+    <div className="timeline-wrapper m-6 mt-0 h-[60vh] relative bg-white rounded-2xl rounded-br-none shadow-inner overflow-x-hidden ">
+      {/* Absolute-positioned zoom controls */}
+  
 
       {/* Scrollable timeline content */}
       <div ref={scrollRef} className="overflow-x-auto overflow-y-hidden h-full">
@@ -121,6 +130,7 @@ export const Timeline: React.FC<TimelineProps> = ({
               startYear={startYear}
               groups={groups}
               className="bg-indigo-100 text-indigo-800 rounded-full px-2 py-1 shadow"
+              onItemClick={handleItemClick}
             />
           ))}
         </div>
@@ -130,7 +140,35 @@ export const Timeline: React.FC<TimelineProps> = ({
           columnStyles={columnStyles}
           className="mt-4 text-xs text-gray-500"
         />
+
+
       </div>
+        {/* SIDE PANEL */}
+
+      <div
+        className={`
+          absolute top-0 right-0 h-full w-80 bg-white shadow-lg p-6
+          transform transition-transform duration-300 z-50
+          ${selectedItem ? 'translate-x-0' : 'translate-x-full'}
+        `}
+      >
+        <button
+          className="mb-4 text-gray-500 hover:text-gray-800"
+          onClick={() => setSelectedItem(null)}
+        >
+          Close ×
+        </button>
+
+        {selectedItem ? (
+          <>
+            <h2 className="text-xl font-bold mb-2">{selectedItem.title}</h2>
+            <p><strong>Start:</strong> {selectedItem.startYear}</p>
+            <p><strong>End: </strong> {selectedItem.endYear}</p>
+          </>
+        ) : null}
+      </div>
+       
     </div>
+    </>
   );
 };
