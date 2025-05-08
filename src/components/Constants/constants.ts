@@ -25,18 +25,6 @@ export const TIMELINE_GROUPS = [
   { id: 6, label: 'Test'                         },
 ];
 
-/** Event items on the timeline */
-// export const TIMELINE_ITEMS = [
-//   { id:  1, group: 1, title: 'French & Indian War', startYear: 1754, endYear: 1763 },
-//   { id:  2, group: 2, title: 'Royal Proclamation Line', startYear: 1763, endYear: 1764 },
-//   { id:  3, group: 2, title: 'Sugar Act', startYear: 1764, endYear: 1764 },
-//   { id:  4, group: 2, title: 'Stamp Act', startYear: 1765, endYear: 1765 },
-//   { id:  5, group: 2, title: 'Townshend Duties',  startYear: 1767, endYear: 1768 },
-//   { id:  6, group: 3, title: 'Boston Massacre', startYear: 1770, endYear: 1770 },
-//   { id:  7, group: 3, title: 'Boston Tea Party', startYear: 1773, endYear: 1773 },
-//   { id:  8, group: 2, title: 'Intolerable Acts', startYear: 1774, endYear: 1774 },
-//   { id:  9, group: 3, title: 'Military conflict in Boston', startYear: 1775, endYear: 1775 },
-// ];
 export const TIMELINE_ITEMS = [
   {
     id:  1,

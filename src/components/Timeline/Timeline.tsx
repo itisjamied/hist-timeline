@@ -124,20 +124,20 @@ export const Timeline: React.FC<TimelineProps> = ({
         </button>
         <button
           onClick={() => adjustWidth(1)}
-          className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300"
+          className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300 cursor-pointer"
         >
           +
         </button>
         <button
           onClick={toggleFullscreen}
-          className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300"
+          className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300 cursor-pointer"
         >
           {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
         </button>
       </div>
 
       {/* Timeline Content */}
-      <div ref={scrollRef} className="h-full overflow-x-auto overflow-y-hidden">
+      <div ref={scrollRef} className={`h-full overflow-x-auto overflow-y-hidden ${isFullscreen ? 'pt-8' : ''}`}>
         <div
           className="grid min-w-max relative divide-y divide-gray-200"
           style={{
@@ -182,7 +182,7 @@ export const Timeline: React.FC<TimelineProps> = ({
           ${selectedItem ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <button
-          className="mb-4 text-gray-500 hover:text-gray-800"
+          className="mb-4 text-gray-500 hover:text-gray-800 cursor-pointer"
           onClick={() => setSelectedItem(null)}
         >
           Close ×
