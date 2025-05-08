@@ -20,6 +20,22 @@ export const schema = {
     }),
 
     // 2. (later) other document or object types you want to add
-    
+    defineType({
+      name: 'timelineGroup',
+      title: 'Timeline Group',
+      type: 'document',
+      fields: [
+        defineField({
+          name: 'label',
+          title: 'Group Label',
+          type: 'string',
+        }),
+        defineField({
+          name: 'id',
+          title: 'Group ID',
+          type: 'number',
+        }),
+      ],
+    }),
   ],
 }

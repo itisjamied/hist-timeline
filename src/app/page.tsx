@@ -6,19 +6,23 @@ export const dynamic = 'force-dynamic';
 import {
   START_YEAR,
   END_YEAR,
-  TIMELINE_GROUPS,
+  // TIMELINE_GROUPS,
   TIMELINE_ITEMS,
 } from '../components/Constants/constants';
+// import { time } from 'console';
 
 
 export default async function Home() {
   const { title } = await client.fetch<{ title: string }>(
     `*[_type == "siteSettings"][0]{ title }`
   );
+  const timelineGroups = await client.fetch<Group[]>(
+    `*[_type == "timelineGroup"] | order(id asc) { id, label }`
+  );
 
 const startYear = START_YEAR;
 const endYear   = END_YEAR;
-const groups    = TIMELINE_GROUPS as Group[];
+// const groups    = TIMELINE_GROUPS as Group[];
 const items     = TIMELINE_ITEMS as Item[];
   return (
     // <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 py-12 px-6">
@@ -44,7 +48,7 @@ const items     = TIMELINE_ITEMS as Item[];
         <Timeline
           startYear={startYear}
           endYear={endYear}
-          groups={groups}
+          groups={timelineGroups}
           items={items}
         />
       </section>
