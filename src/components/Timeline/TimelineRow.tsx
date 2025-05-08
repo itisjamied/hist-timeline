@@ -1,5 +1,6 @@
 import React from 'react';
 import { Group } from './types';
+import { TIMELINE_BG_CLASSES } from '../Constants/constants';
 
 interface TimelineRowProps {
   group: Group;
@@ -9,8 +10,7 @@ interface TimelineRowProps {
 }
 
 export const TimelineRow: React.FC<TimelineRowProps> = ({ group, years }) => {
-  const bgClasses = ['bg-red-50','bg-green-50','bg-blue-50','bg-yellow-50','bg-purple-50'];
-  const rowBg = bgClasses[group.id % bgClasses.length];
+  const rowBg = TIMELINE_BG_CLASSES[(group.id - 1) % TIMELINE_BG_CLASSES.length];
 
   return (
     <>

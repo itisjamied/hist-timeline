@@ -3,37 +3,26 @@ import { Timeline } from '@/components/Timeline/Timeline';
 import { Group, Item } from '@/components/Timeline/types';
 export const revalidate = 0; // never cache, always SSR on every request
 export const dynamic = 'force-dynamic';
+import {
+  START_YEAR,
+  END_YEAR,
+  TIMELINE_GROUPS,
+  TIMELINE_ITEMS,
+} from '../components/Constants/constants';
+
 
 export default async function Home() {
   const { title } = await client.fetch<{ title: string }>(
     `*[_type == "siteSettings"][0]{ title }`
   );
-  const startYear = 1700;
-  const endYear = 1877;
 
-  const groups: Group[] = [
-    { id: 1, label: 'Wars' },
-    { id: 2, label: 'Imperial Legislation' },
-    { id: 3, label: 'Colonial Protest & Conflict' },
-    { id: 4, label: 'Test' },
-    { id: 5, label: 'Test' },
-    { id: 6, label: 'Test' },
-  ];
-
-  const items: Item[] = [
-    { id:  1, group: 1, title: 'French & Indian War',startYear: 1754, endYear: 1763 },
-    { id:  2, group: 2, title: 'Royal Proclamation Line',startYear: 1763, endYear: 1764 },
-    { id:  3, group: 2, title: 'Sugar Act',startYear: 1764, endYear: 1764 },
-    { id:  4, group: 2, title: 'Stamp Act',startYear: 1765, endYear: 1765 },
-    { id:  5, group: 2, title: 'Townshend Duties', startYear: 1767, endYear: 1768 },
-    { id:  6, group: 3, title: 'Boston Massacre',startYear: 1770, endYear: 1770 }, 
-    { id:  7, group: 3, title: 'Boston Tea Party',startYear: 1773, endYear: 1773 },
-    { id:  8, group: 2, title: 'Intolerable Acts',startYear: 1774, endYear: 1774 },
-    { id:  9, group: 3, title: 'Military conflict in Boston', startYear: 1775, endYear: 1775 },
-  ];
-  
+const startYear = START_YEAR;
+const endYear   = END_YEAR;
+const groups    = TIMELINE_GROUPS as Group[];
+const items     = TIMELINE_ITEMS as Item[];
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 py-12 px-6">
+    // <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 py-12 px-6">
+    <main className="min-h-screen bg-gradient-to-br from-orange-50 via-orange-300 to-yellow-800 py-12 px-6">
       {/* Site Header */}
       <header className="max-w-6xl mx-auto mb-8">
         <h1 className="text-5xl font-extrabold text-center text-gray-800">
@@ -61,7 +50,7 @@ export default async function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="max-w-6xl mx-auto mt-12 text-center text-gray-500 text-sm">
+      <footer className="max-w-6xl mx-auto mt-12 text-center text-white text-sm">
         &copy; {new Date().getFullYear()} {title || 'My Timeline App'}. All rights reserved.
       </footer>
     </main>

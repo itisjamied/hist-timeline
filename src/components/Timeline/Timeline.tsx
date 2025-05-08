@@ -95,7 +95,7 @@ export const Timeline: React.FC<TimelineProps> = ({
       </div>
 
       {/* Scrollable timeline content */}
-      <div ref={scrollRef} className="overflow-x-auto h-full">
+      <div ref={scrollRef} className="overflow-x-auto overflow-y-hidden h-full">
         <div
           className="grid min-w-max relative divide-y divide-gray-200"
           style={{

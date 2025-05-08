@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PositionedItem, Group } from './types';
-import { COLUMN_WIDTH_VW } from '../Constants/constants';
+import { COLUMN_WIDTH_VW, TIMELINE_BG_CLASSES } from '../Constants/constants';
 
 interface TimelineItemProps {
   item: PositionedItem;
@@ -17,14 +17,8 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const overlapOffset = 3;
 
-  const bgClasses = [
-    'bg-red-50',
-    'bg-green-50',
-    'bg-blue-50',
-    'bg-yellow-50',
-    'bg-purple-50',
-  ];
-  const itemBg = bgClasses[item.group % bgClasses.length];
+  const itemBg = TIMELINE_BG_CLASSES[item.group -1  % TIMELINE_BG_CLASSES.length];
+
 
   const rowIndex = groups.findIndex((g) => g.id === item.group);
   if (rowIndex === -1) return null;
@@ -48,9 +42,15 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
         width: `${spanYears * COLUMN_WIDTH_VW}vw`,
         top: `${item.level * overlapOffset}rem`,
         zIndex,
+        transform: `translateX(${COLUMN_WIDTH_VW / 2}vw)`,
       }}
     >
       {item.title}
+       {/* vertical “connector” down to the year row */}
+       <div
+        className="absolute w-px top-full left-0 h-150 bg-black"
+        style={{ zIndex }}
+      />
     </div>
   );
 };
