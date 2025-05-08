@@ -20,5 +20,6 @@ export const schema = {
     }),
 
     // 2. (later) other document or object types you want to add
+    
   ],
 }
