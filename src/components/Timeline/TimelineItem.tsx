@@ -55,7 +55,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
       {item.title}
        {/* vertical “connector” down to the year row */}
        <div
-        className="absolute w-px top-full left-0 h-150 bg-black"
+        className="absolute w-px top-full left-0 h-600 bg-black"
         style={{ zIndex }}
       />
     </div>
