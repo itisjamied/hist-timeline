@@ -190,17 +190,17 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
             />
           ))}
 
-          {itemsWithLevel.map(item => (
-            <TimelineItem
-              key={item.id}
-              item={item}
-              startYear={startYear}
-              groups={groups}
-              description={item.description}
-              className="bg-indigo-100 text-indigo-800 rounded-full px-2 py-1 shadow"
-              onItemClick={handleItemClick}
-            />
-          ))}
+         {itemsWithLevel.map(item => (
+          <TimelineItem
+            key={`${item.id}-${item.group}-${item.startYear}`}
+            item={item}
+            startYear={startYear}
+            groups={groups}
+            description={item.description}
+            className="bg-indigo-100 text-indigo-800 rounded-full px-2 py-1 shadow"
+            onItemClick={handleItemClick}
+          />
+        ))}
         </div>
 
         <YearLabels
@@ -258,6 +258,7 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
               width={1000}
               height={1000}
             />
+            
             <button
               className="absolute top-4 right-4 text-white text-2xl font-bold cursor-pointer"
               onClick={closeModal}

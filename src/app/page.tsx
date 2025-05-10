@@ -7,7 +7,7 @@ import {
   START_YEAR,
   END_YEAR,
   // TIMELINE_GROUPS,
-  TIMELINE_ITEMS,
+  // TIMELINE_ITEMS,
 } from '../components/Constants/constants';
 // import { time } from 'console';
 
@@ -19,11 +19,37 @@ export default async function Home() {
   const timelineGroups = await client.fetch<Group[]>(
     `*[_type == "timelineGroup"] | order(id asc) { id, label }`
   );
+  // const timelineItems = await client.fetch(
+  // `*[_type == "timelineItem"] | order(startYear asc) {
+  //   title,
+  //   description,
+  //   startYear,
+  //   endYear,
+  //   "photoUrl": photo.asset->url,
+  //   "fileUrl": file.asset->url,
+  //   group->{
+  //     id,
+  //     label
+  //   }
+  // }`
+  // );
+
+    const timelineItems = await client.fetch<Item[]>(
+    `*[_type == "timelineItem"] | order(startYear asc) {
+       "id": _id,
+       title,
+       description,
+       startYear,
+       endYear,
+       "photo": photo.asset->url,
+       "group": group->id
+     }`
+  )
 
 const startYear = START_YEAR;
 const endYear   = END_YEAR;
 // const groups    = TIMELINE_GROUPS as Group[];
-const items     = TIMELINE_ITEMS as Item[];
+// const items     = TIMELINE_ITEMS as Item[];
   return (
     // <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 py-12 px-6">
     <main className="min-h-screen bg-gradient-to-br from-orange-50 via-orange-300 to-yellow-800 py-12 px-6">
@@ -49,7 +75,8 @@ const items     = TIMELINE_ITEMS as Item[];
           startYear={startYear}
           endYear={endYear}
           groups={timelineGroups}
-          items={items}
+          // items={items}
+           items={timelineItems}
         />
       </section>
 
