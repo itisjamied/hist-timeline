@@ -107,6 +107,27 @@ export const Timeline: React.FC<TimelineProps> = ({
 
   const [selectedItem, setSelectedItem] = useState<PositionedItem | null>(null);
   const handleItemClick = (item: PositionedItem) => setSelectedItem(item);
+  // Add this state to manage the sidebar width
+const [sidebarWidth, setSidebarWidth] = useState(320); // Default width in pixels
+
+// Function to handle mouse down on the resizable handle
+const handleMouseDown = (e: React.MouseEvent) => {
+  const startX = e.clientX;
+  const startWidth = sidebarWidth;
+
+  const handleMouseMove = (moveEvent: MouseEvent) => {
+    const newWidth = startWidth - (moveEvent.clientX - startX);
+    setSidebarWidth(Math.max(newWidth, 200)); // Minimum width of 200px
+  };
+
+  const handleMouseUp = () => {
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  };
+
+  document.addEventListener('mousemove', handleMouseMove);
+  document.addEventListener('mouseup', handleMouseUp);
+};
 
   return (
     <div
@@ -177,27 +198,41 @@ export const Timeline: React.FC<TimelineProps> = ({
       </div>
 
       {/* Side Panel */}
-      <div
-        className={`absolute top-0 right-0 h-full w-80 bg-white shadow-lg p-6 transform transition-transform duration-300 z-30
-          ${selectedItem ? 'translate-x-0' : 'translate-x-full'}`}
-      >
-        <button
-          className="mb-4 text-gray-500 hover:text-gray-800 cursor-pointer"
-          onClick={() => setSelectedItem(null)}
-        >
-          Close ×
-        </button>
-        {selectedItem && (
-          <>
-            <h2 className="text-xl font-bold mb-2">{selectedItem.title}</h2>
-            <p><strong>Start:</strong> {selectedItem.startYear}</p>
-            <p><strong>End:</strong> {selectedItem.endYear}</p>
-            {selectedItem.description && (
-              <p className="mt-4 text-gray-700">{selectedItem.description}</p>
-            )}
-          </>
-        )}
-      </div>
+<div
+  className={`absolute top-0 right-0 h-full bg-white shadow-lg p-6 transform transition-transform duration-300 z-30
+    ${selectedItem ? 'translate-x-0' : 'translate-x-full'}`}
+  style={{ width: `${sidebarWidth}px` }}
+>
+  {/* Resizable Handle */}
+  <div
+    className="absolute top-0 left-0 h-full w-2 bg-gray-300 cursor-ew-resize"
+    onMouseDown={handleMouseDown}
+  ></div>
+
+  <button
+    className="mb-4 text-gray-500 hover:text-gray-800 cursor-pointer"
+    onClick={() => setSelectedItem(null)}
+  >
+    Close ×
+  </button>
+  {selectedItem && (
+    <>
+      <h2 className="text-xl font-bold mb-2">{selectedItem.title}</h2>
+      <p><strong>Start:</strong> {selectedItem.startYear}</p>
+      <p><strong>End:</strong> {selectedItem.endYear}</p>
+      {selectedItem.photo && (
+        <img
+          src={selectedItem.photo}
+          alt={selectedItem.title}
+          className="mt-4 w-full h-auto rounded shadow"
+        />
+      )}
+      {selectedItem.description && (
+        <p className="mt-4 text-gray-700">{selectedItem.description}</p>
+      )}
+    </>
+  )}
+</div>
     </div>
   );
 };
