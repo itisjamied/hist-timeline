@@ -23,6 +23,8 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<PositionedItem | null>(null);
   const [sidebarWidth, setSidebarWidth] = useState(320);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalImage, setModalImage] = useState<string | null>(null);
 
   /**
    * Refs
@@ -138,6 +140,18 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
     document.addEventListener('mouseup', onMouseUp);
   };
 
+
+
+  const openModal = (image: string) => {
+    setModalImage(image);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalImage(null);
+    setIsModalOpen(false);
+  };
+
   /**
    * Render
    */
@@ -149,9 +163,9 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
     >
       {/* Controls */}
       <div className="absolute top-4 right-4 z-20 flex space-x-2 bg-white bg-opacity-75 p-2 rounded">
-        <button onClick={() => adjustWidth(-1)} className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300">–</button>
-        <button onClick={() => adjustWidth(1)}  className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300">+</button>
-        <button onClick={toggleFullscreen}       className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300">
+        <button onClick={() => adjustWidth(-1)} className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300 cursor-pointer">–</button>
+        <button onClick={() => adjustWidth(1)}  className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300 cursor-pointer">+</button>
+        <button onClick={toggleFullscreen}       className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300 cursor-pointer">
           {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
         </button>
       </div>
@@ -198,7 +212,7 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
 
       {/* Side Panel */}
       <div
-        className={`absolute top-0 right-0 h-full bg-white shadow-lg p-6 transition-transform duration-300 z-30
+        className={`absolute top-0 right-0 h-full bg-white shadow-lg p-6 transition-transform duration-300 z-30 overflow-y-auto
           ${selectedItem ? 'translate-x-0' : 'translate-x-full'}`}
         style={{ width: sidebarWidth }}
       >
@@ -206,7 +220,7 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
           className="absolute top-0 left-0 h-full w-2 bg-gray-300 cursor-ew-resize"
           onMouseDown={initResize}
         />
-        <button onClick={handleCloseSidebar} className="mb-4 text-gray-500 hover:text-gray-800">Close ×</button>
+        <button onClick={handleCloseSidebar} className="mb-4 text-gray-500 hover:text-gray-800 cursor-pointer">Close ×</button>
 
         {selectedItem && (
           <>
@@ -214,7 +228,14 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
             <p><strong>Start:</strong> {selectedItem.startYear}</p>
             <p><strong>End:</strong> {selectedItem.endYear}</p>
             {selectedItem.photo && (
-              <Image src={selectedItem.photo} alt={selectedItem.title} className="mt-4 w-full h-auto rounded shadow" width={1000} height={1000} />
+              <Image 
+              src={selectedItem.photo} 
+              alt={selectedItem.title} 
+              className="mt-4 w-full h-auto rounded shadow" 
+              width={1000} 
+              height={1000} 
+              onClick={() => openModal(selectedItem.photo ?? '')}
+              />
             )}
             {selectedItem.description && (
               <p className="mt-4 text-gray-700">{selectedItem.description}</p>
@@ -222,6 +243,33 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
           </>
         )}
       </div>
+
+      {/* Modal */}
+      {isModalOpen && modalImage && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 "
+          onClick={closeModal} // Close modal when clicking outside the image
+        >
+          <div className="relative">
+            <Image
+              src={modalImage}
+              alt="Modal"
+              className="max-w-full h-auto max-h-screen rounded shadow-lg p-10"
+              width={1000}
+              height={1000}
+            />
+            <button
+              className="absolute top-4 right-4 text-white text-2xl font-bold cursor-pointer"
+              onClick={closeModal}
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
+
+
+
     </div>
   );
 };
