@@ -240,6 +240,48 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
             {selectedItem.description && (
               <p className="mt-4 text-gray-700">{selectedItem.description}</p>
             )}
+           
+            {selectedItem.fileUrl && (
+      <div className="mt-4">
+        {/\.(jpe?g|png|gif|webp)$/i.test(selectedItem.fileUrl) ? (
+          // image‐attachment preview
+          <Image
+            src={selectedItem.fileUrl}
+            alt={`${selectedItem.title} attachment`}
+            className="w-full h-auto rounded shadow cursor-pointer"
+            width={800}
+            height={600}
+            onClick={() => openModal(selectedItem.fileUrl!)}
+          />
+        ) : /\.(pdf)$/i.test(selectedItem.fileUrl) ? (
+          // pdf‐attachment preview
+          <object
+            data={selectedItem.fileUrl}
+            type="application/pdf"
+            width="100%"
+            height="4000px"
+            className="cursor-pointer"
+            onClick={() => openModal(selectedItem.fileUrl!)}
+          >
+            <p>
+              <a href={selectedItem.fileUrl} target="_blank" rel="noreferrer">
+                Download PDF
+              </a>
+            </p>
+          </object>
+        ) : (
+          // fallback download link for any other file types
+          <a
+            href={selectedItem.fileUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="text-indigo-600 hover:underline"
+          >
+            Download attachment
+          </a>
+        )}
+      </div>
+)}
           </>
         )}
       </div>
@@ -247,20 +289,35 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
       {/* Modal */}
       {isModalOpen && modalImage && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 "
-          onClick={closeModal} // Close modal when clicking outside the image
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75"
+          onClick={closeModal}
         >
-          <div className="relative">
-            <Image
-              src={modalImage}
-              alt="Modal"
-              className="max-w-full h-auto max-h-screen rounded shadow-lg p-10"
-              width={1000}
-              height={1000}
-            />
-            
+          <div className="relative max-w-4xl w-full max-h-full p-4 rounded">
+            {/\.(pdf)$/i.test(modalImage) ? (
+              <object
+                data={modalImage}
+                type="application/pdf"
+                width="100%"
+                height="80vh"
+              >
+                <p>
+                  <a href={modalImage} target="_blank" rel="noreferrer">
+                    Download PDF
+                  </a>
+                </p>
+              </object>
+            ) : (
+              <Image
+                src={modalImage}
+                alt="attachment"
+                className="max-w-full max-h-[80vh] rounded shadow-lg"
+                width={1000}
+                height={1000}
+              />
+            )}
+
             <button
-              className="absolute top-4 right-4 text-white text-2xl font-bold cursor-pointer"
+              className="absolute top-2 right-2 text-black text-2xl font-bold"
               onClick={closeModal}
             >
               ×

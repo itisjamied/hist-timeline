@@ -19,20 +19,6 @@ export default async function Home() {
   const timelineGroups = await client.fetch<Group[]>(
     `*[_type == "timelineGroup"] | order(id asc) { id, label }`
   );
-  // const timelineItems = await client.fetch(
-  // `*[_type == "timelineItem"] | order(startYear asc) {
-  //   title,
-  //   description,
-  //   startYear,
-  //   endYear,
-  //   "photoUrl": photo.asset->url,
-  //   "fileUrl": file.asset->url,
-  //   group->{
-  //     id,
-  //     label
-  //   }
-  // }`
-  // );
 
     const timelineItems = await client.fetch<Item[]>(
     `*[_type == "timelineItem"] | order(startYear asc) {
@@ -42,6 +28,7 @@ export default async function Home() {
        startYear,
        endYear,
        "photo": photo.asset->url,
+      "fileUrl": file.asset->url,
        "group": group->id
      }`
   )

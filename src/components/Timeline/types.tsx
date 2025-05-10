@@ -12,6 +12,7 @@ export interface Group {
     endYear: number;
     description?: string;
     photo?: string;
+    fileUrl?: string 
   }
   
   export interface PositionedItem extends Item {
