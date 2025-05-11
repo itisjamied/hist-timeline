@@ -1,10 +1,10 @@
 'use client'
 import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import { Group, Item, PositionedItem } from './types';
-import Image from 'next/image';
 import { computeLevels } from './utils/computeLevels';
 import { Controls } from './Controls';
 import { Sidebar } from './Sidebar';
+import { Modal } from './Modal';
 import { TimelineRow } from './TimelineRow';
 import { TimelineItem } from './TimelineItem';
 import { YearLabels } from './YearLabels';
@@ -210,8 +210,6 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
           className="mt-4 text-xs text-gray-500"
         />
       </div>
-
-      {/* Side Panel */}
    
       <Sidebar
         selectedItem={selectedItem}
@@ -221,48 +219,11 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
         onOpenModal={openModal}
       />
 
-      {/* Modal */}
-      {isModalOpen && modalImage && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75"
-          onClick={closeModal}
-        >
-          <div className="relative w-full max-h-full p-4 rounded flex items-center justify-center">
-            {/\.(pdf)$/i.test(modalImage) ? (
-              <object
-                data={modalImage}
-                type="application/pdf"
-                width="100%"
-                height="100%"
-              >
-                <p>
-                  <a href={modalImage} target="_blank" rel="noreferrer">
-                    Download PDF
-                  </a>
-                </p>
-              </object>
-            ) : (
-              <Image
-                src={modalImage}
-                alt="attachment"
-                className="max-w-full h-auto max-h-[80vh] rounded shadow-lg"
-                width={4000}
-                height={4000}
-              />
-            )}
-
-            <button
-              className="absolute top-2 right-2 text-black text-2xl font-bold"
-              onClick={closeModal}
-            >
-              ×
-            </button>
-          </div>
-        </div>
-      )}
-
-
-
+       <Modal
+        isOpen={isModalOpen}
+        imageSrc={modalImage}
+        onClose={closeModal}
+      />
     </div>
   );
 };
