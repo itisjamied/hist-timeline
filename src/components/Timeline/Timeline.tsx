@@ -3,6 +3,7 @@ import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import { Group, Item, PositionedItem } from './types';
 import Image from 'next/image';
 import { computeLevels } from './utils/computeLevels';
+import { Controls } from './Controls';
 import { TimelineRow } from './TimelineRow';
 import { TimelineItem } from './TimelineItem';
 import { YearLabels } from './YearLabels';
@@ -161,14 +162,13 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
       className={`timeline-fullscreen-container m-6 relative bg-white rounded-2xl shadow-inner overflow-hidden
         ${isFullscreen ? 'h-screen pt-8' : 'h-[60vh]'}`}
     >
-      {/* Controls */}
-      <div className="absolute top-4 right-4 z-20 flex space-x-2 bg-white bg-opacity-75 p-2 rounded">
-        <button onClick={() => adjustWidth(-1)} className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300 cursor-pointer">–</button>
-        <button onClick={() => adjustWidth(1)}  className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300 cursor-pointer">+</button>
-        <button onClick={toggleFullscreen}       className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300 cursor-pointer">
-          {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
-        </button>
-      </div>
+   
+      <Controls
+        onZoomOut={() => adjustWidth(-1)}
+        onZoomIn={() => adjustWidth(1)}
+        onToggleFullscreen={toggleFullscreen}
+        isFullscreen={isFullscreen}
+      />
 
       {/* Timeline Grid */}
       <div ref={scrollRef} className={`h-full overflow-x-auto overflow-y-hidden ${isFullscreen ? 'pt-8' : ''}`}>        
@@ -298,7 +298,7 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
                 data={modalImage}
                 type="application/pdf"
                 width="100%"
-                height="80vh"
+                height="100%"
               >
                 <p>
                   <a href={modalImage} target="_blank" rel="noreferrer">
@@ -310,9 +310,9 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
               <Image
                 src={modalImage}
                 alt="attachment"
-                className="max-w-full max-h-[80vh] rounded shadow-lg"
-                width={1000}
-                height={1000}
+                className="max-w-full h-auto max-h-[80vh] rounded shadow-lg"
+                width={700}
+                height={4000}
               />
             )}
 
