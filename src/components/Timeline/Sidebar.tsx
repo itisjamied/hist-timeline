@@ -38,8 +38,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
     {selectedItem && (
       <>
         <h2 className="text-xl font-bold mb-2">{selectedItem.title}</h2>
-        <p><strong>Start:</strong> {selectedItem.startYear}</p>
-        <p><strong>End:</strong> {selectedItem.endYear}</p>
+        {selectedItem.startYear === selectedItem.endYear ? (
+          <p><strong>Year:</strong> {selectedItem.startYear}</p>
+        ) : (
+          <>
+            <p><strong>Start:</strong> {selectedItem.startYear}</p>
+            <p><strong>End:</strong> {selectedItem.endYear}</p>
+          </>
+        )}
 
         {selectedItem.photo && (
           <Image

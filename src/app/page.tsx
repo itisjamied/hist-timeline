@@ -57,7 +57,7 @@ const endYear   = END_YEAR;
       </section>
 
       {/* Timeline Section */}
-      <section className="max-w-8xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+      <section className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-8">
         <Timeline
           startYear={startYear}
           endYear={endYear}
