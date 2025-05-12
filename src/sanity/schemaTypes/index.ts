@@ -1,5 +1,6 @@
 // src/sanity/schemaTypes/index.ts
 import { defineType, defineField } from 'sanity'
+import IconPicker from '../InputComponents/IconPicker'
 
 export const schema = {
   types: [
@@ -56,6 +57,9 @@ export const schema = {
               { title: 'Gavel',value: 'FaGavel'},
               { title: 'Warning',value: 'FaExclamationCircle'},
             ]
+          },
+          components: {
+            input: IconPicker
           }
         }),
       ],
