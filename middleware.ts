@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(req: NextRequest) {
   // only protect /studio and its sub-paths
-  if (!req.nextUrl.pathname.startsWith('/studio')) {
+  if (!req.nextUrl.pathname.startsWith('/admin')) {
     return NextResponse.next()
   }
 
@@ -26,5 +26,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/studio/:path*'],
+  matcher: ['/admin/:path*'],
 }
