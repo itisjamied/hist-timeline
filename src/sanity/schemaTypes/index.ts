@@ -1,10 +1,8 @@
 // src/sanity/schemaTypes/index.ts
 import { defineType, defineField } from 'sanity'
 
-// Export an object matching defineConfig’s `schema` option
 export const schema = {
   types: [
-    // 1. Your Site Settings doc
     defineType({
       name: 'siteSettings',
       title: 'Site Settings',
@@ -33,7 +31,6 @@ export const schema = {
       ],
     }),
 
-    // 2. (later) other document or object types you want to add
     defineType({
       name: 'timelineGroup',
       title: 'Timeline Group',
@@ -48,6 +45,18 @@ export const schema = {
           name: 'id',
           title: 'Group ID',
           type: 'number',
+        }),
+         defineField({
+          name: 'icon',
+          title: 'Icon',
+          type: 'string',
+          options: {
+            list: [
+              { title: 'Flag',value: 'FaFlag'},
+              { title: 'Gavel',value: 'FaGavel'},
+              { title: 'Warning',value: 'FaExclamationCircle'},
+            ]
+          }
         }),
       ],
     }),

@@ -17,7 +17,7 @@ export default async function Home() {
   //   `*[_type == "siteSettings"][0]{ title }`
   // );
   const timelineGroups = await client.fetch<Group[]>(
-    `*[_type == "timelineGroup"] | order(id asc) { id, label }`
+    `*[_type == "timelineGroup"] | order(id asc) { id, label , "icon": icon, }`
   );
    const { title, startYear = 1700, endYear = 1877 } =
     await client.fetch<{ title: string; startYear: number; endYear: number }>(

@@ -14,11 +14,17 @@ interface TimelineItemProps {
 }
 
 // map group-id → icon
-const groupIcons: Record<number, IconType> = {
-  1: FaFlag,
-  2: FaGavel,
-  3: FaExclamationCircle,
-  // …add more as needed
+// const groupIcons: Record<number, IconType> = {
+//   1: FaFlag,
+//   2: FaGavel,
+//   3: FaExclamationCircle,
+// }
+
+// map the Sanity icon‐name → React component
+const iconMap: Record<string,IconType> = {
+  FaFlag: FaFlag,
+  FaGavel: FaGavel,
+  FaExclamationCircle: FaExclamationCircle,
 }
 
 export const TimelineItem: React.FC<TimelineItemProps> = ({
@@ -38,7 +44,9 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
   const colStart = startOffset + 2
   const colEnd = colStart + spanYears
   const zIndex = isHovered ? 30 : item.level + 10
-  const Icon = groupIcons[item.group] || FaExclamationCircle
+   const group = groups.find(g => g.id===item.group)
+  if (!group) return null
+  const Icon = iconMap[group.icon] || FaExclamationCircle
 
   return (
     <div
