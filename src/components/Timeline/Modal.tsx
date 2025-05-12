@@ -35,13 +35,15 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, imageSrc, onClose }) => {
             </p>
           </object>
         ) : (
+             <div className="max-w-[90vw] max-h-[100vh] p-10 overflow-auto">
           <Image
             src={imageSrc}
             alt="attachment"
-            className="max-w-full h-auto max-h-[80vh] rounded shadow-lg"
-            width={4000}
-            height={4000}
+             className=" object-contain rounded shadow-lg"
+            width={900}
+            height={700}
           />
+          </div>
         )}
         <button
           className="absolute top-2 right-2 text-white text-2xl font-bold"

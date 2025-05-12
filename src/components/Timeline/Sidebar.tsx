@@ -20,7 +20,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onOpenModal,
 }) => (
   <div
-    className={`absolute top-0 right-0 h-full bg-white shadow-lg p-6 transition-transform duration-300 z-30 overflow-y-auto
+    className={`absolute top-0 right-0 h-full bg-white shadow-lg p-6 text-black transition-transform duration-300 z-30 overflow-y-auto
       ${selectedItem ? 'translate-x-0' : 'translate-x-full'}`}
     style={{ width }}
   >
@@ -30,9 +30,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
     />
     <button
       onClick={onClose}
-      className="mb-4 text-gray-500 hover:text-gray-800 cursor-pointer"
+      className=" mb-4 text-red-700 px-2 py-1 bg-red-200 rounded font-black hover:text-red-500 cursor-pointer"
     >
-      Close ×
+      X
     </button>
 
     {selectedItem && (

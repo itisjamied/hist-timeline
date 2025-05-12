@@ -4,8 +4,8 @@ import { Group, Item } from '@/components/Timeline/types';
 export const revalidate = 0; // never cache, always SSR on every request
 export const dynamic = 'force-dynamic';
 import {
-  START_YEAR,
-  END_YEAR,
+  // START_YEAR,
+  // END_YEAR,
   // TIMELINE_GROUPS,
   // TIMELINE_ITEMS,
 } from '../components/Constants/constants';
@@ -13,12 +13,20 @@ import {
 
 
 export default async function Home() {
-  const { title } = await client.fetch<{ title: string }>(
-    `*[_type == "siteSettings"][0]{ title }`
-  );
+  // const { title } = await client.fetch<{ title: string }>(
+  //   `*[_type == "siteSettings"][0]{ title }`
+  // );
   const timelineGroups = await client.fetch<Group[]>(
     `*[_type == "timelineGroup"] | order(id asc) { id, label }`
   );
+   const { title, startYear = 1700, endYear = 1877 } =
+    await client.fetch<{ title: string; startYear: number; endYear: number }>(
+      `*[_type == "siteSettings"][0]{
+        title,
+        "startYear": startYear,
+        "endYear": endYear
+      }`
+    )
 
     const timelineItems = await client.fetch<Item[]>(
     `*[_type == "timelineItem"] | order(startYear asc) {
@@ -33,8 +41,8 @@ export default async function Home() {
      }`
   )
 
-const startYear = START_YEAR;
-const endYear   = END_YEAR;
+// const startYear = START_YEAR;
+// const endYear   = END_YEAR;
 // const groups    = TIMELINE_GROUPS as Group[];
 // const items     = TIMELINE_ITEMS as Item[];
   return (

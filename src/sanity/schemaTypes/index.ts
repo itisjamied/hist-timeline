@@ -16,6 +16,20 @@ export const schema = {
           type: 'string',
           description: 'This shows up in the <h1> of your Next.js home page',
         }),
+         defineField({
+      name: 'startYear',
+      title: 'Timeline Start Year',
+      type: 'number',
+      description: 'The first year of your timeline',
+      initialValue: 1700,
+    }),
+    defineField({
+      name: 'endYear',
+      title: 'Timeline End Year',
+      type: 'number',
+      description: 'The last year of your timeline',
+      initialValue: 1877,
+    }),
       ],
     }),
 
@@ -91,6 +105,7 @@ export const schema = {
         }),
       ],
       
+
     }),
   ],
 }

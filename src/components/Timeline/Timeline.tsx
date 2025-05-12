@@ -118,6 +118,15 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
     }
   };
 
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    if (scrollRef.current) {
+      // prevent the default vertical scroll
+      e.preventDefault()
+      // scroll horizontally by the vertical delta
+      scrollRef.current.scrollLeft += e.deltaY
+    }
+  }
+
   const handleItemClick = (item: PositionedItem) => {
     setSelectedItem(item);
   };
@@ -172,7 +181,10 @@ export const Timeline: React.FC<TimelineProps> = ({ startYear, endYear, groups, 
       />
 
       {/* Timeline Grid */}
-      <div ref={scrollRef} className={`h-full overflow-x-auto overflow-y-hidden ${isFullscreen ? 'pt-8' : ''}`}>        
+      <div 
+      ref={scrollRef} 
+        onWheel={handleWheel}    
+      className={`h-full overflow-x-auto overflow-y-hidden ${isFullscreen ? 'pt-8' : ''}`}>        
         <div
           className="grid min-w-max relative divide-y divide-gray-200"
           style={{
