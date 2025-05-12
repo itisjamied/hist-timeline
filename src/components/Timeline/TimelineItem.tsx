@@ -1,14 +1,30 @@
-import React, { useState } from 'react';
-import { PositionedItem, Group } from './types';
-import { COLUMN_WIDTH_VW, TIMELINE_BG_CLASSES } from '../Constants/constants';
+import React, { useState } from 'react'
+import { IconType } from 'react-icons'
+import { FaFlag, FaGavel, FaExclamationCircle } from 'react-icons/fa'
+import { PositionedItem, Group } from './types'
+import { COLUMN_WIDTH_VW, TIMELINE_BG_CLASSES } from '../Constants/constants'
 
 interface TimelineItemProps {
-  item: PositionedItem;
-  startYear: number;
-  groups: Group[];
-  className?: string;
-  description?: string;
-  onItemClick?: (item: PositionedItem) => void;
+  item: PositionedItem
+  startYear: number
+  groups: Group[]
+  className?: string
+  description?: string
+  onItemClick?: (item: PositionedItem) => void
+}
+
+// map group-id → icon
+// const groupIcons: Record<number, IconType> = {
+//   1: FaFlag,
+//   2: FaGavel,
+//   3: FaExclamationCircle,
+// }
+
+// map the Sanity icon‐name → React component
+const iconMap: Record<string,IconType> = {
+  FaFlag: FaFlag,
+  FaGavel: FaGavel,
+  FaExclamationCircle: FaExclamationCircle,
 }
 
 export const TimelineItem: React.FC<TimelineItemProps> = ({
@@ -17,32 +33,31 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
   groups,
   onItemClick,
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const overlapOffset = 3;
+  const [isHovered, setIsHovered] = useState(false)
+  const overlapOffset = 3
+  const itemBg = TIMELINE_BG_CLASSES[(item.group - 1) % TIMELINE_BG_CLASSES.length]
+  const rowIndex = groups.findIndex(g => g.id === item.group)
+  if (rowIndex === -1) return null
 
-  const itemBg = TIMELINE_BG_CLASSES[item.group -1  % TIMELINE_BG_CLASSES.length];
-
-
-  const rowIndex = groups.findIndex((g) => g.id === item.group);
-  if (rowIndex === -1) return null;
-
-  const startOffset = item.startYear - startYear;
-  const spanYears = item.endYear - item.startYear + 1;
-  const colStart = startOffset + 2;
-  const colEnd = colStart + spanYears;
-
-  // bring to front when hovered
-  const zIndex = isHovered ? 30 : item.level + 10;
+  const startOffset = item.startYear - startYear
+  const spanYears = item.endYear - item.startYear + 1
+  const colStart = startOffset + 2
+  const colEnd = colStart + spanYears
+  const zIndex = isHovered ? 30 : item.level + 10
+   const group = groups.find(g => g.id===item.group)
+  if (!group) return null
+  const Icon = iconMap[group.icon] || FaExclamationCircle
 
   return (
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={() => onItemClick?.(item)} 
-      // onClick={() => {
-      //   console.log(`Name: ${item.title}, Start Year: ${item.startYear}, End Year: ${item.endYear}`);
-      // }} 
-      className={`absolute flex items-center justify-center px-1 text-xs font-bold text-black rounded p-2 border-2 border-black hover:border-red-600 hover:cursor-pointer ${itemBg}`}
+      onClick={() => onItemClick?.(item)}
+      className={`
+        absolute flex items-center justify-start space-x-1
+        px-2 py-1 text-xs font-bold text-black rounded border-2 border-black
+        hover:border-red-600 hover:cursor-pointer ${itemBg}
+      `}
       style={{
         gridColumn: `${colStart} / ${colEnd}`,
         gridRowStart: rowIndex + 1,
@@ -52,12 +67,13 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
         transform: `translateX(${COLUMN_WIDTH_VW / 2}vw)`,
       }}
     >
-      {item.title}
-       {/* vertical “connector” down to the year row */}
-       <div
+      <Icon className="flex-shrink-0" size={14} />
+      <span>{item.title}</span>
+      {/* connector line */}
+      <div
         className="absolute w-px top-full left-0 h-600 bg-black"
         style={{ zIndex }}
       />
     </div>
-  );
-};
+  )
+}

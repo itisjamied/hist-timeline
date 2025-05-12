@@ -2,6 +2,7 @@
 export interface Group {
     id: number;
     label: string;
+    icon: string;
   }
   
   export interface Item {
@@ -10,7 +11,9 @@ export interface Group {
     title: string;
     startYear: number;
     endYear: number;
-    description?: string; 
+    description?: string;
+    photo?: string;
+    fileUrl?: string 
   }
   
   export interface PositionedItem extends Item {

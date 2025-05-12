@@ -4,22 +4,47 @@ import { Group, Item } from '@/components/Timeline/types';
 export const revalidate = 0; // never cache, always SSR on every request
 export const dynamic = 'force-dynamic';
 import {
-  START_YEAR,
-  END_YEAR,
-  TIMELINE_GROUPS,
-  TIMELINE_ITEMS,
+  // START_YEAR,
+  // END_YEAR,
+  // TIMELINE_GROUPS,
+  // TIMELINE_ITEMS,
 } from '../components/Constants/constants';
+// import { time } from 'console';
 
 
 export default async function Home() {
-  const { title } = await client.fetch<{ title: string }>(
-    `*[_type == "siteSettings"][0]{ title }`
+  // const { title } = await client.fetch<{ title: string }>(
+  //   `*[_type == "siteSettings"][0]{ title }`
+  // );
+  const timelineGroups = await client.fetch<Group[]>(
+    `*[_type == "timelineGroup"] | order(id asc) { id, label , icon, }`
   );
+   const { title, startYear = 1700, endYear = 1877 } =
+    await client.fetch<{ title: string; startYear: number; endYear: number }>(
+      `*[_type == "siteSettings"][0]{
+        title,
+        "startYear": startYear,
+        "endYear": endYear
+      }`
+    )
 
-const startYear = START_YEAR;
-const endYear   = END_YEAR;
-const groups    = TIMELINE_GROUPS as Group[];
-const items     = TIMELINE_ITEMS as Item[];
+    const timelineItems = await client.fetch<Item[]>(
+    `*[_type == "timelineItem"] | order(startYear asc) {
+       "id": _id,
+       title,
+       description,
+       startYear,
+       endYear,
+       "photo": photo.asset->url,
+      "fileUrl": file.asset->url,
+       "group": group->id
+     }`
+  )
+
+// const startYear = START_YEAR;
+// const endYear   = END_YEAR;
+// const groups    = TIMELINE_GROUPS as Group[];
+// const items     = TIMELINE_ITEMS as Item[];
   return (
     // <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 py-12 px-6">
     <main className="min-h-screen bg-gradient-to-br from-orange-50 via-orange-300 to-yellow-800 py-12 px-6">
@@ -40,12 +65,13 @@ const items     = TIMELINE_ITEMS as Item[];
       </section>
 
       {/* Timeline Section */}
-      <section className="max-w-8xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+      <section className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-8">
         <Timeline
           startYear={startYear}
           endYear={endYear}
-          groups={groups}
-          items={items}
+          groups={timelineGroups}
+          // items={items}
+           items={timelineItems}
         />
       </section>
 

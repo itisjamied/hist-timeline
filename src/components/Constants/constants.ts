@@ -32,7 +32,8 @@ export const TIMELINE_ITEMS = [
     title: 'French & Indian War',
     startYear: 1754,
     endYear: 1763,
-    description: 'A North American theater of the global Seven Years’ War pitting Britain and its colonies against France and their Native American allies, reshaping colonial borders.'
+    description: 'A North American theater of the global Seven Years’ War pitting Britain and its colonies against France and their Native American allies, reshaping colonial borders.',
+    photo: '/TESTIMG.png'
   },
   {
     id:  2,
@@ -40,7 +41,10 @@ export const TIMELINE_ITEMS = [
     title: 'Royal Proclamation Line',
     startYear: 1763,
     endYear: 1764,
-    description: 'British decree forbidding colonial settlement west of the Appalachian Mountains, intended to stabilize relations with Native Americans and control expansion.'
+    description: 'British decree forbidding colonial settlement west of the Appalachian Mountains, intended to stabilize relations with Native Americans and control expansion.',
+    photo: '/TESTIMG.png'
+    
+    
   },
   {
     id:  3,
@@ -48,7 +52,8 @@ export const TIMELINE_ITEMS = [
     title: 'Sugar Act',
     startYear: 1764,
     endYear: 1764,
-    description: 'Revenue-raising measure imposing duties on molasses and sugar imports to the colonies, aimed at offsetting Britain’s war debt and enforcing trade regulations.'
+    description: 'Revenue-raising measure imposing duties on molasses and sugar imports to the colonies, aimed at offsetting Britain’s war debt and enforcing trade regulations.',
+    photo: '/TESTIMG.png'
   },
   {
     id:  4,
@@ -56,7 +61,8 @@ export const TIMELINE_ITEMS = [
     title: 'Stamp Act',
     startYear: 1765,
     endYear: 1765,
-    description: 'Direct tax requiring that many printed materials in the colonies be produced on stamped paper from London, sparking widespread protest under the slogan “no taxation without representation.”'
+    description: 'Direct tax requiring that many printed materials in the colonies be produced on stamped paper from London, sparking widespread protest under the slogan “no taxation without representation.”',
+    photo: '/TESTIMG.png'
   },
   {
     id:  5,
@@ -64,7 +70,8 @@ export const TIMELINE_ITEMS = [
     title: 'Townshend Duties',
     startYear: 1767,
     endYear: 1768,
-    description: 'Series of import taxes on goods like glass, tea, and paper, used to pay colonial governor salaries; led to boycotts and heightened tensions over parliamentary authority.'
+    description: 'Series of import taxes on goods like glass, tea, and paper, used to pay colonial governor salaries; led to boycotts and heightened tensions over parliamentary authority.',
+    photo: '/TESTIMG.png'
   },
   {
     id:  6,
@@ -72,7 +79,8 @@ export const TIMELINE_ITEMS = [
     title: 'Boston Massacre',
     startYear: 1770,
     endYear: 1770,
-    description: 'Confrontation where British soldiers fired on a crowd in Boston, killing five colonists and fueling anti-British sentiment through colonial propaganda.'
+    description: 'Confrontation where British soldiers fired on a crowd in Boston, killing five colonists and fueling anti-British sentiment through colonial propaganda.',
+    photo: '/TESTIMG.png'
   },
   {
     id:  7,
@@ -80,7 +88,8 @@ export const TIMELINE_ITEMS = [
     title: 'Boston Tea Party',
     startYear: 1773,
     endYear: 1773,
-    description: 'Political protest in which colonists, disguised as Mohawk Indians, boarded British ships and dumped tea into Boston Harbor to oppose the Tea Act’s monopoly.'
+    description: 'Political protest in which colonists, disguised as Mohawk Indians, boarded British ships and dumped tea into Boston Harbor to oppose the Tea Act’s monopoly.',
+    photo: '/TESTIMG.png'
   },
   {
     id:  8,
@@ -88,7 +97,8 @@ export const TIMELINE_ITEMS = [
     title: 'Intolerable Acts',
     startYear: 1774,
     endYear: 1774,
-    description: 'Punitive measures (Coercive Acts) enacted by Parliament in response to the Tea Party, closing Boston Harbor and altering Massachusetts’ charter to punish colonial resistance.'
+    description: 'Punitive measures (Coercive Acts) enacted by Parliament in response to the Tea Party, closing Boston Harbor and altering Massachusetts’ charter to punish colonial resistance.',
+    photo: '/TESTIMG.png'
   },
   {
     id:  9,
@@ -96,7 +106,8 @@ export const TIMELINE_ITEMS = [
     title: 'Military conflict in Boston',
     startYear: 1775,
     endYear: 1775,
-    description: 'Clashes at Lexington and Concord and the Siege of Boston marked the outbreak of open warfare between colonial militias and British troops, beginning the Revolutionary War.'
+    description: 'Clashes at Lexington and Concord and the Siege of Boston marked the outbreak of open warfare between colonial militias and British troops, beginning the Revolutionary War.',
+    photo: '/TESTIMG.png'
   },
 ];
 
