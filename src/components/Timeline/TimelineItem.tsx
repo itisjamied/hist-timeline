@@ -86,7 +86,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
       }}
     >
       <Icon className="flex-shrink-0" size={14} />
-      <span className='text-xl'>{item.title}</span>
+      <span className='text-s'>{item.title}</span>
       {/* connector line */}
       <div
         className="absolute w-px top-full left-0 h-600 bg-black"
