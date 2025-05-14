@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { IconType } from 'react-icons'
-import { FaFlag, FaGavel, FaExclamationCircle } from 'react-icons/fa'
+import {FaFlag, FaGavel, FaExclamationCircle, FaBeer, FaCoffee,
+        FaHome, FaUser, FaLock, FaUnlock, FaHeart, FaStar,
+        FaChartBar, FaCalculator, FaCamera, FaBell, FaCalendar,
+        FaComment, FaEnvelope} from 'react-icons/fa'
 import { PositionedItem, Group } from './types'
 import { COLUMN_WIDTH_VW, TIMELINE_BG_CLASSES } from '../Constants/constants'
 
@@ -21,10 +24,25 @@ interface TimelineItemProps {
 // }
 
 // map the Sanity icon‐name → React component
-const iconMap: Record<string,IconType> = {
-  FaFlag: FaFlag,
-  FaGavel: FaGavel,
-  FaExclamationCircle: FaExclamationCircle,
+const iconMap: Record<string, IconType> = {
+  FaFlag:             FaFlag,
+  FaGavel:            FaGavel,
+  FaExclamationCircle:FaExclamationCircle,
+  FaBeer:             FaBeer,
+  FaCoffee:           FaCoffee,
+  FaHome:             FaHome,
+  FaUser:             FaUser,
+  FaLock:             FaLock,
+  FaUnlock:           FaUnlock,
+  FaHeart:            FaHeart,
+  FaStar:             FaStar,
+  FaChartBar:         FaChartBar,
+  FaCalculator:       FaCalculator,
+  FaCamera:           FaCamera,
+  FaBell:             FaBell,
+  FaCalendar:         FaCalendar,
+  FaComment:          FaComment,
+  FaEnvelope:         FaEnvelope,
 }
 
 export const TimelineItem: React.FC<TimelineItemProps> = ({
@@ -55,7 +73,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
       onClick={() => onItemClick?.(item)}
       className={`
         absolute flex items-center justify-start space-x-1
-        px-2 py-1 text-xs font-bold text-black rounded border-2 border-black
+        px-2 py-1 text-m font-bold text-black rounded border-2 border-black
         hover:border-red-600 hover:cursor-pointer ${itemBg}
       `}
       style={{
@@ -68,7 +86,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
       }}
     >
       <Icon className="flex-shrink-0" size={14} />
-      <span>{item.title}</span>
+      <span className='text-xl'>{item.title}</span>
       {/* connector line */}
       <div
         className="absolute w-px top-full left-0 h-600 bg-black"

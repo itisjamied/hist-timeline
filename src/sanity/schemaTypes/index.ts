@@ -51,11 +51,26 @@ export const schema = {
           name: 'icon',
           title: 'Icon',
           type: 'string',
-          options: {
+         options: {
             list: [
-              { title: 'Flag',value: 'FaFlag'},
-              { title: 'Gavel',value: 'FaGavel'},
-              { title: 'Warning',value: 'FaExclamationCircle'},
+              { title: 'Flag',    value: 'FaFlag'             },
+              { title: 'Gavel',   value: 'FaGavel'            },
+              { title: 'Warning', value: 'FaExclamationCircle' },
+              { title: 'Beer',    value: 'FaBeer'             },
+              { title: 'Coffee',  value: 'FaCoffee'           },
+              { title: 'Home',    value: 'FaHome'             },
+              { title: 'User',    value: 'FaUser'             },
+              { title: 'Lock',    value: 'FaLock'             },
+              { title: 'Unlock',  value: 'FaUnlock'           },
+              { title: 'Heart',   value: 'FaHeart'            },
+              { title: 'Star',    value: 'FaStar'             },
+              { title: 'Chart',   value: 'FaChartBar'         },
+              { title: 'Calc',    value: 'FaCalculator'       },
+              { title: 'Camera',  value: 'FaCamera'           },
+              { title: 'Bell',    value: 'FaBell'             },
+              { title: 'Calendar',value: 'FaCalendar'         },
+              { title: 'Comment', value: 'FaComment'          },
+              { title: 'Envelope',value: 'FaEnvelope'         },
             ]
           },
           components: {
