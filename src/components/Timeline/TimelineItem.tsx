@@ -73,7 +73,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
       onClick={() => onItemClick?.(item)}
       className={`
         absolute flex items-center justify-start space-x-1
-        px-2 py-1 text-m font-bold text-black rounded border-2 border-black
+        px-2 py-1 text-s font-bold text-black rounded border-2 border-black
         hover:border-red-600 hover:cursor-pointer ${itemBg}
       `}
       style={{
